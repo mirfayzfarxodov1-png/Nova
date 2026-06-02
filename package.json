@@ -1,0 +1,47 @@
+{
+  "name": "nova-social",
+  "version": "2.0.0",
+  "description": "NOVA - Dunyodagi eng kuchli super ilova | Mirfayz Creator",
+  "main": "index.html",
+  "scripts": {
+    "start": "npx live-server --port=3000 --no-browser",
+    "dev": "npx live-server --port=3000 --host=localhost",
+    "prod": "http-server -p 8080",
+    "build": "echo 'NOVA build completed'",
+    "test": "echo 'No tests yet'",
+    "install-pwa": "npm install -g http-server live-server"
+  },
+  "keywords": [
+    "social",
+    "media",
+    "video",
+    "nova",
+    "mirfayz",
+    "instagram-clone",
+    "tiktok-clone",
+    "social-network"
+  ],
+  "author": "Mirfayz Creator <mirfayzfarxodov1@gmail.com>",
+  "license": "Proprietary",
+  "private": true,
+  "devDependencies": {
+    "live-server": "^1.2.2",
+    "http-server": "^14.1.1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mirfayz/nova-social"
+  },
+  "browserslist": [
+    "last 2 versions",
+    "not dead",
+    "> 0.5%",
+    "chrome >= 90",
+    "firefox >= 88",
+    "safari >= 14"
+  ],
+  "engines": {
+    "node": ">=14.0.0",
+    "npm": ">=6.0.0"
+  }
+}
