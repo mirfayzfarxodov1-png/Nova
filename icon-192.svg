@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 192 192" width="192" height="192">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#ff0000;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#cc0000;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="textGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#ffffff;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#ffcccc;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  
+  <!-- Background -->
+  <rect width="192" height="192" rx="42" fill="url(#bg)"/>
+  
+  <!-- Outer ring -->
+  <rect x="8" y="8" width="176" height="176" rx="38" fill="none" stroke="#ff4444" stroke-width="3" stroke-opacity="0.5"/>
+  
+  <!-- Star icon in background -->
+  <polygon points="96,20 105,45 132,48 112,65 118,92 96,78 74,92 80,65 60,48 87,45" fill="white" fill-opacity="0.15"/>
+  
+  <!-- Letter N -->
+  <text x="96" y="125" text-anchor="middle" fill="url(#textGrad)" font-size="85" font-weight="900" font-family="Arial, Helvetica, sans-serif" letter-spacing="-2">
+    N
+  </text>
+  
+  <!-- Bottom text -->
+  <text x="96" y="162" text-anchor="middle" fill="white" font-size="22" font-weight="700" font-family="Arial, Helvetica, sans-serif" letter-spacing="3" opacity="0.9">
+    NOVA
+  </text>
+  
+  <!-- Small dots decoration -->
+  <circle cx="30" cy="30" r="3" fill="white" fill-opacity="0.3"/>
+  <circle cx="162" cy="30" r="3" fill="white" fill-opacity="0.3"/>
+  <circle cx="30" cy="162" r="3" fill="white" fill-opacity="0.3"/>
+  <circle cx="162" cy="162" r="3" fill="white" fill-opacity="0.3"/>
+  
+  <!-- Sparkle effect -->
+  <path d="M140 50 L142 55 L147 57 L142 59 L140 64 L138 59 L133 57 L138 55 Z" fill="white" fill-opacity="0.6"/>
+  <path d="M50 130 L52 135 L57 137 L52 139 L50 144 L48 139 L43 137 L48 135 Z" fill="white" fill-opacity="0.4"/>
+</svg>
