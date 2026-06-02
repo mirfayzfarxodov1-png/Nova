@@ -1,0 +1,4 @@
+@media(max-width:1200px){.right-panel{width:300px}}
+@media(max-width:992px){.right-panel{display:none}}
+@media(max-width:768px){.sidebar{transform:translateX(-100%);position:fixed;z-index:1000}.sidebar.open{transform:translateX(0)}.main{margin-left:0;padding:0 15px}.search-bar{width:180px}.post-actions{gap:12px}}
+@media(max-width:480px){.profile-stats{gap:10px}.stat-number{font-size:14px}}
