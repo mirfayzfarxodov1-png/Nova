@@ -478,5 +478,117 @@
 <script src="js/ui/theme.js"></script>
 <script src="js/ui/loader.js"></script>
 
+<!-- ========== PVA VA OFFLINE ISHLASH ========== -->
+<script>
+    // Service Worker ro'yxatdan o'tkazish
+    if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+            navigator.serviceWorker.register('/service-worker.js')
+                .then(reg => console.log('✅ Service Worker ro\'yxatdan o\'tdi:', reg))
+                .catch(err => console.log('❌ Service Worker xatosi:', err));
+        });
+    }
+    
+    // PWA o'rnatish tugmasi
+    let deferredPrompt;
+    window.addEventListener('beforeinstallprompt', (e) => {
+        e.preventDefault();
+        deferredPrompt = e;
+        
+        // O'rnatish tugmasini yaratish
+        let installBtn = document.getElementById('pwaInstallBtn');
+        if (!installBtn) {
+            installBtn = document.createElement('button');
+            installBtn.id = 'pwaInstallBtn';
+            installBtn.innerHTML = '<i class="fas fa-download"></i> Ilovani o\'rnatish';
+            installBtn.style.cssText = `
+                position: fixed;
+                bottom: 90px;
+                right: 20px;
+                background: linear-gradient(135deg, #ff0000, #cc0000);
+                color: white;
+                border: none;
+                padding: 12px 20px;
+                border-radius: 30px;
+                cursor: pointer;
+                z-index: 10000;
+                font-weight: 600;
+                box-shadow: 0 4px 15px rgba(255,0,0,0.3);
+                display: none;
+                align-items: center;
+                gap: 8px;
+                font-size: 14px;
+            `;
+            document.body.appendChild(installBtn);
+        }
+        
+        installBtn.style.display = 'flex';
+        
+        installBtn.onclick = async () => {
+            if (deferredPrompt) {
+                deferredPrompt.prompt();
+                const { outcome } = await deferredPrompt.userChoice;
+                console.log(`User response: ${outcome}`);
+                deferredPrompt = null;
+                installBtn.style.display = 'none';
+            }
+        };
+    });
+    
+    // Offline holatni tekshirish
+    window.addEventListener('online', () => {
+        showToast("📡 Internet aloqasi tiklandi!", 2000);
+    });
+    
+    window.addEventListener('offline', () => {
+        showToast("⚠️ Internet aloqasi uzildi. Offline rejim!", 3000);
+    });
+    
+    // Yuklash animatsiyasi
+    window.addEventListener('load', () => {
+        setTimeout(() => {
+            const loader = document.getElementById('pageLoader');
+            if (loader) {
+                loader.style.opacity = '0';
+                setTimeout(() => {
+                    loader.style.display = 'none';
+                }, 300);
+            }
+        }, 500);
+    });
+</script>
+
+<!-- ========== SAHIFA YUKLASH ANIMATSIYASI ========== -->
+<div id="pageLoader" style="
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: #000;
+    z-index: 99999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 15px;
+    transition: opacity 0.3s;
+">
+    <div class="nova-loader-spinner" style="
+        width: 50px;
+        height: 50px;
+        border: 3px solid rgba(255,255,255,0.2);
+        border-top: 3px solid #ff0000;
+        border-radius: 50%;
+        animation: loaderSpin 1s linear infinite;
+    "></div>
+    <div style="color: #fff; font-size: 14px;">NOVA yuklanmoqda...</div>
+    <style>
+        @keyframes loaderSpin {
+            to { transform: rotate(360deg); }
+        }
+    </style>
+</div>
+
 </body>
 </html>
