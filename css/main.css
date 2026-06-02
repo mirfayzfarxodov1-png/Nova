@@ -1,0 +1,7 @@
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Inter',sans-serif;background:#000;color:#fff}
+.app{display:flex;min-height:100vh}
+.sidebar{width:260px;background:#0a0a0a;border-right:1px solid rgba(255,0,0,0.2);position:fixed;left:0;top:0;height:100vh}
+.main{flex:1;margin-left:260px;margin-right:350px;padding:0 20px}
+.right-panel{width:350px;position:fixed;right:0;top:0;height:100vh;background:#0a0a0a;border-left:1px solid rgba(255,0,0,0.2);padding:20px}
+@media(max-width:768px){.sidebar{transform:translateX(-100%)}.sidebar.open{transform:translateX(0)}.main{margin-left:0}}
