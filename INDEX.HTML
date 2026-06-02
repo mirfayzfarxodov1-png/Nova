@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta name="description" content="NOVA - Dunyodagi eng kuchli super ilova">
+    <meta name="theme-color" content="#000000">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <title>NOVA – Mirfayz Creator</title>
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
+    
+    <!-- CSS FAYLLAR -->
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/animations.css">
+    <link rel="stylesheet" href="css/responsive.css">
+</head>
+<body>
+
+<div class="app">
+    <!-- ========== SIDEBAR (CHAP TOMON - 260px) ========== -->
+    <aside class="sidebar" id="sidebar">
+        <div class="logo">
+            <i class="fas fa-star-of-life"></i>
+            <span>NOVA</span>
+        </div>
+        
+        <!-- Profil qismi -->
+        <div class="profile">
+            <div class="profile-avatar-wrapper">
+                <img class="profile-avatar" id="profileAvatar" src="https://ui-avatars.com/api/?background=FF0000&color=fff&name=User" alt="Avatar">
+                <div class="badge-icon" id="badgeIcon">✓</div>
+            </div>
+            <h3 class="profile-name" id="profileName">Foydalanuvchi</h3>
+            <p class="profile-bio" id="profileBio">Nova da yangiman!</p>
+            <div class="profile-stats">
+                <div class="stat" onclick="window.showFollowers()">
+                    <span class="stat-number" id="followersCount">0</span>
+                    <span class="stat-label">Obunachilar</span>
+                </div>
+                <div class="stat" onclick="window.showMyVideos()">
+                    <span class="stat-number" id="videosCount">0</span>
+                    <span class="stat-label">Videolar</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-number" id="levelCount">1</span>
+                    <span class="stat-label">Daraja</span>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Navigatsiya menyusi -->
+        <nav class="nav-menu">
+            <div class="nav-item active" data-page="home">
+                <i class="fas fa-home"></i>
+                <span>Bosh sahifa</span>
+            </div>
+            <div class="nav-item" data-page="explore">
+                <i class="fas fa-compass"></i>
+                <span>Kashf et</span>
+            </div>
+            <div class="nav-item" data-page="reels">
+                <i class="fas fa-clapperboard"></i>
+                <span>Reels</span>
+            </div>
+            <div class="nav-item" data-page="myvideos">
+                <i class="fas fa-video"></i>
+                <span>Mening videolarim</span>
+            </div>
+            <div class="nav-item" data-page="notifications">
+                <i class="fas fa-bell"></i>
+                <span>Ogohlantirishlar</span>
+                <span class="nav-badge" id="notifBadge">0</span>
+            </div>
+            <div class="nav-item" data-page="chat">
+                <i class="fas fa-message"></i>
+                <span>Xabarlar</span>
+            </div>
+            <div class="nav-item" data-page="trending">
+                <i class="fas fa-chart-line"></i>
+                <span>Trendlar</span>
+            </div>
+            <div class="nav-item" data-page="settings">
+                <i class="fas fa-cog"></i>
+                <span>Sozlamalar</span>
+            </div>
+        </nav>
+        
+        <!-- Sidebar pastki qismi (tugmalar) -->
+        <div class="sidebar-footer">
+            <button class="btn btn-primary" id="badgeBtn">
+                <i class="fas fa-crown"></i> Animatsiyali galichka (1$/oy)
+            </button>
+            <button class="btn btn-gold" id="coinBtn">
+                <i class="fas fa-coins"></i> Nova Coin
+            </button>
+            <button class="btn btn-gold" id="premiumBtn">
+                <i class="fas fa-crown"></i> Premium obuna
+            </button>
+        </div>
+    </aside>
+
+    <!-- ========== MAIN CONTENT (MARKAZ) ========== -->
+    <main class="main">
+        <!-- Top bar (qidiruv va ikonkalar) -->
+        <div class="top-bar">
+            <button class="menu-btn" id="menuBtn">
+                <i class="fas fa-bars"></i>
+            </button>
+            <div class="search">
+                <i class="fas fa-search"></i>
+                <input type="text" placeholder="Qidiruv..." id="searchInput">
+            </div>
+            <div class="top-icons">
+                <i class="fas fa-plus-circle" id="uploadBtn" title="Video yuklash"></i>
+                <i class="fas fa-fire" id="trendingIcon" title="Trendlar"></i>
+                <i class="fas fa-heart" id="notifIcon" title="Ogohlantirishlar"></i>
+                <i class="fas fa-comment-dots" id="chatIcon" title="Xabarlar"></i>
+                <i class="fas fa-moon" id="themeToggle" title="Mavzu"></i>
+            </div>
+        </div>
+
+        <!-- Stories qatori -->
+        <div class="stories" id="storiesContainer"></div>
+        
+        <!-- Feed (postlar ro'yxati) -->
+        <div class="feed" id="feedContainer"></div>
+        
+        <!-- Yuklash animatsiyasi -->
+        <div class="loader" id="loader" style="display: none;">
+            <div class="spinner"></div>
+        </div>
+    </main>
+
+    <!-- ========== RIGHT PANEL (O'NG TOMON - 320px) ========== -->
+    <aside class="right-panel">
+        <!-- Coin kartasi -->
+        <div class="coin-card">
+            <i class="fas fa-coins"></i>
+            <div class="coin-amount" id="coinAmount">100</div>
+            <span>Nova Coin</span>
+            <button id="buyCoinsBtn">Sotib olish</button>
+        </div>
+
+        <!-- Galichka kartasi -->
+        <div class="badge-card">
+            <div class="badge-preview">
+                <span>✓</span>
+            </div>
+            <div class="badge-price">1$ / oy</div>
+            <button id="badgeRightBtn">Sotib olish</button>
+            <small>Chek: +998938138110</small>
+        </div>
+
+        <!-- Taklif qilinadigan kanallar -->
+        <div class="suggestions">
+            <h4><i class="fas fa-users"></i> Taklif qilinadigan kanallar</h4>
+            <div id="suggestionsList"></div>
+        </div>
+
+        <!-- Trenddagi hashtaglar -->
+        <div class="suggestions">
+            <h4><i class="fas fa-fire"></i> Trenddagi hashtaglar</h4>
+            <div class="hashtag-list" id="hashtagList"></div>
+        </div>
+    </aside>
+</div>
+
+<!-- ========== REELS KONTEYNERI (TO'LIQ EKRAN) ========== -->
+<div id="reelsContainer" class="reels-container">
+    <button class="reels-close" id="closeReelsBtn">
+        <i class="fas fa-times"></i>
+    </button>
+    <div id="reelsList"></div>
+</div>
+
+<!-- ========== MODAL OYNALAR ========== -->
+
+<!-- 1. Video yuklash modal -->
+<div class="modal" id="uploadModal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3>Video yuklash</h3>
+            <button class="close-modal" id="closeUploadModal">&times;</button>
+        </div>
+        <div class="modal-body">
+            <div class="upload-area" id="uploadArea">
+                <i class="fas fa-cloud-upload-alt"></i>
+                <p>Videoni bosing yoki tashlang</p>
+                <input type="file" id="videoFile" accept="video/*" hidden>
+            </div>
+            <input type="text" class="form-input" id="videoTitle" placeholder="Sarlavha">
+            <textarea class="form-input" id="videoDesc" placeholder="Tavsif" rows="3"></textarea>
+            <select class="form-input" id="videoPrivacy">
+                <option value="public">Hamma ko'rishi mumkin</option>
+                <option value="subscribers">Obunachilar uchun</option>
+                <option value="private">Faqat men</option>
+            </select>
+            <button id="publishBtn" class="btn btn-primary">Yuklash</button>
+        </div>
+    </div>
+</div>
+
+<!-- 2. Profil tahrirlash modal -->
+<div class="modal" id="profileModal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3>Profilni tahrirlash</h3>
+            <button class="close-modal" id="closeProfileModal">&times;</button>
+        </div>
+        <div class="modal-body">
+            <div class="profile-preview">
+                <img id="profilePreview" class="profile-avatar-large" src="https://ui-avatars.com/api/?background=FF0000&color=fff&name=User" alt="Preview">
+            </div>
+            <input type="file" id="profileImage" accept="image/*" class="form-input">
+            <input type="text" id="editName" class="form-input" placeholder="Ismingiz">
+            <textarea id="editBio" class="form-input" placeholder="Bio..." rows="3"></textarea>
+            <button id="saveProfileBtn" class="btn btn-primary">Saqlash</button>
+        </div>
+    </div>
+</div>
+
+<!-- 3. Kommentlar modal -->
+<div class="modal" id="commentsModal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3>Kommentlar</h3>
+            <button class="close-modal" id="closeCommentsModal">&times;</button>
+        </div>
+        <div class="modal-body" id="commentsList"></div>
+        <div class="comment-input-area">
+            <input type="text" id="newComment" class="form-input" placeholder="Komment yozing...">
+            <button id="sendCommentBtn" class="btn-send">Yuborish</button>
+        </div>
+    </div>
+</div>
+
+<!-- 4. Xabarlar modal -->
+<div class="modal" id="chatModal">
+    <div class="modal-content chat-modal">
+        <div class="modal-header">
+            <h3>Xabarlar</h3>
+            <button class="close-modal" id="closeChatModal">&times;</button>
+        </div>
+        <div id="chatUsers" class="chat-users"></div>
+        <div id="chatArea" class="chat-area" style="display: none;">
+            <div id="chatMessages" class="chat-messages"></div>
+            <div class="chat-input">
+                <input type="text" id="chatInput" class="form-input" placeholder="Xabar yozing...">
+                <button id="sendChatBtn" class="btn-send">Yuborish</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 5. Sozlamalar modal -->
+<div class="modal" id="settingsModal">
+    <div class="modal-content settings-modal">
+        <div class="modal-header">
+            <h3>Sozlamalar</h3>
+            <button class="close-modal" id="closeSettingsModal">&times;</button>
+        </div>
+        <div class="modal-body">
+            <div class="settings-group">
+                <h4>Hisob</h4>
+                <div class="setting-item">
+                    <span>Ism</span>
+                    <span id="settingName"></span>
+                </div>
+                <div class="setting-item">
+                    <span>Bio</span>
+                    <span id="settingBio"></span>
+                </div>
+            </div>
+            <div class="settings-group">
+                <h4>Ko'rinish</h4>
+                <div class="setting-item">
+                    <span>Dark mode</span>
+                    <input type="checkbox" id="darkMode" checked>
+                </div>
+                <div class="setting-item">
+                    <span>Rang</span>
+                    <select id="themeColor">
+                        <option value="red">Qizil</option>
+                        <option value="blue">Ko'k</option>
+                        <option value="green">Yashil</option>
+                    </select>
+                </div>
+                <div class="setting-item">
+                    <span>Shrift</span>
+                    <select id="fontSize">
+                        <option value="small">Kichik</option>
+                        <option value="medium" selected>O'rta</option>
+                        <option value="large">Katta</option>
+                    </select>
+                </div>
+            </div>
+            <div class="settings-group">
+                <h4>Video</h4>
+                <div class="setting-item">
+                    <span>Avto-ko'rish</span>
+                    <input type="checkbox" id="autoPlay">
+                </div>
+                <div class="setting-item">
+                    <span>HD video</span>
+                    <input type="checkbox" id="hdVideo" checked>
+                </div>
+            </div>
+            <div class="settings-group">
+                <h4>Ogohlantirishlar</h4>
+                <div class="setting-item">
+                    <span>Yangi obuna</span>
+                    <input type="checkbox" id="notifSub" checked>
+                </div>
+                <div class="setting-item">
+                    <span>Yangi layk</span>
+                    <input type="checkbox" id="notifLike" checked>
+                </div>
+                <div class="setting-item">
+                    <span>Yangi komment</span>
+                    <input type="checkbox" id="notifComment" checked>
+                </div>
+            </div>
+            <button id="saveSettingsBtn" class="btn btn-primary">Saqlash</button>
+            <button id="resetSettingsBtn" class="btn btn-secondary">Sozlamalarni tiklash</button>
+        </div>
+    </div>
+</div>
+
+<!-- 6. Ogohlantirishlar modal -->
+<div class="modal" id="notificationsModal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3>Ogohlantirishlar</h3>
+            <button class="close-modal" id="closeNotifModal">&times;</button>
+        </div>
+        <div class="modal-body" id="notificationsList"></div>
+    </div>
+</div>
+
+<!-- 7. Nova Coin do'koni modal -->
+<div class="modal" id="coinShopModal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3>Nova Coin sotib olish</h3>
+            <button class="close-modal" id="closeCoinModal">&times;</button>
+        </div>
+        <div class="modal-body">
+            <div class="coin-packages">
+                <div class="coin-package" data-coins="100" data-price="1">
+                    <span class="coin-emoji">☕</span>
+                    <span class="coin-count">100</span>
+                    <span class="coin-price">1$</span>
+                </div>
+                <div class="coin-package" data-coins="550" data-price="5">
+                    <span class="coin-emoji">🍕</span>
+                    <span class="coin-count">550</span>
+                    <span class="coin-price">5$</span>
+                </div>
+                <div class="coin-package" data-coins="1200" data-price="10">
+                    <span class="coin-emoji">🎁</span>
+                    <span class="coin-count">1200</span>
+                    <span class="coin-price">10$</span>
+                </div>
+                <div class="coin-package" data-coins="2500" data-price="20">
+                    <span class="coin-emoji">💎</span>
+                    <span class="coin-count">2500</span>
+                    <span class="coin-price">20$</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 8. Premium obuna modal -->
+<div class="modal" id="premiumModal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3>Premium obuna</h3>
+            <button class="close-modal" id="closePremiumModal">&times;</button>
+        </div>
+        <div class="modal-body">
+            <div class="premium-plans">
+                <div class="premium-plan" data-plan="monthly">
+                    <span class="plan-icon">⭐</span>
+                    <span class="plan-name">Premium</span>
+                    <span class="plan-price">$4.99/oy</span>
+                    <span class="plan-features">Reklamasiz • HD video</span>
+                </div>
+                <div class="premium-plan" data-plan="yearly">
+                    <span class="plan-icon">👑</span>
+                    <span class="plan-name">Premium+</span>
+                    <span class="plan-price">$49.99/yil</span>
+                    <span class="plan-features">Reklamasiz • 4K video • Maxsus galichka</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 9. To'lov modal -->
+<div class="modal" id="paymentModal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3>Galichka sotib olish</h3>
+            <button class="close-modal" id="closePaymentModal">&times;</button>
+        </div>
+        <div class="modal-body">
+            <div class="payment-preview">
+                <div class="badge-preview large">
+                    <span>✓</span>
+                </div>
+            </div>
+            <p class="payment-price">1$ / oy</p>
+            <p class="payment-info">Chek Mirfayzga yuboriladi: +998938138110</p>
+            <input type="text" id="paymentContact" class="form-input" placeholder="Telefon yoki email">
+            <button id="confirmPaymentBtn" class="btn btn-primary">To'lov qilish</button>
+        </div>
+    </div>
+</div>
+
+<!-- 10. Tasdiqlash modal (Mirfayz uchun) -->
+<div class="modal" id="verifyModal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3>Tasdiqlash</h3>
+            <button class="close-modal" id="closeVerifyModal">&times;</button>
+        </div>
+        <div class="modal-body">
+            <p>💰 To'lov kelib tushdi!</p>
+            <p>Foydalanuvchi: <span id="verifyUser"></span></p>
+            <div class="verify-buttons">
+                <button id="approvePayment" class="btn-approve">✅ Tasdiqlash</button>
+                <button id="rejectPayment" class="btn-reject">❌ Rad etish</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Til tanlash tugmalari -->
+<div class="lang-selector">
+    <button class="lang-btn" data-lang="uz">🇺🇿</button>
+    <button class="lang-btn" data-lang="ru">🇷🇺</button>
+    <button class="lang-btn" data-lang="en">🇬🇧</button>
+</div>
+
+<!-- Toast bildirishnoma -->
+<div id="toast" class="toast"></div>
+
+<!-- ========== JAVASCRIPT FAYLLAR (CORE) ========== -->
+<script src="js/core/utils.js"></script>
+<script src="js/core/storage.js"></script>
+<script src="js/core/app.js"></script>
+<script src="js/features/feed.js"></script>
+<script src="js/features/video.js"></script>
+<script src="js/features/reels.js"></script>
+<script src="js/features/stories.js"></script>
+<script src="js/features/chat.js"></script>
+<script src="js/features/notifications.js"></script>
+<script src="js/features/search.js"></script>
+<script src="js/features/settings.js"></script>
+<script src="js/social/likes.js"></script>
+<script src="js/social/comments.js"></script>
+<script src="js/social/shares.js"></script>
+<script src="js/social/follows.js"></script>
+<script src="js/social/channels.js"></script>
+<script src="js/monetization/coins.js"></script>
+<script src="js/monetization/premium.js"></script>
+<script src="js/monetization/badges.js"></script>
+<script src="js/monetization/shop.js"></script>
+<script src="js/monetization/payment.js"></script>
+<script src="js/ui/modal.js"></script>
+<script src="js/ui/toast.js"></script>
+<script src="js/ui/theme.js"></script>
+<script src="js/ui/loader.js"></script>
+
+</body>
+</html>
